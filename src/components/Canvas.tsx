@@ -1,6 +1,7 @@
 import { Environment, Loader, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
+import { GluedPoster } from "./Poster";
 
 // function Rig({ children }: { children: ReactNode }) {
 //   const ref = useRef<THREE.Group>(null);
@@ -46,28 +47,34 @@ const loaderStyles = {
   },
 };
 
-const lightColours = {
-  mint: "rgb(194,255,188)",
-  lightBlue: "rgb(171, 203, 255)",
-};
+// const lightColours = {
+//   mint: "rgb(194,255,188)",
+//   lightBlue: "rgb(171, 203, 255)",
+// };
 
 export const Placeholder = () => {
   return (
     <>
       <div className="bg-stone-50 fixed top-0 bottom-0 w-screen h-screen z-50">
-        <Canvas>
+        <Canvas camera={{ fov: 75, position: [2.5 * 0.7, 4.4 * 0.8, 4 * 0.7] }}>
           <Suspense fallback={null}>
-            <Environment files="/clear_land.hdr" background blur={0.01} />
+            <Environment files="/clear_land.hdr" blur={0.01} />
             <axesHelper args={[5]} />
 
-            <hemisphereLight
+            {/* <hemisphereLight
               color={lightColours.lightBlue}
               groundColor={lightColours.mint}
               intensity={0.6}
               position={[0, 5, 3]}
-            />
+            /> */}
 
-            <mesh
+            <GluedPoster position={[0, 3, 0]} />
+            <GluedPoster position={[0, 2.9, 0]} />
+            <GluedPoster position={[0, 2.8, 0]} />
+            <GluedPoster position={[0, 2.7, 0]} />
+            <GluedPoster position={[0, 2.6, 0]} />
+
+            {/* <mesh
               visible
               userData={{ hello: "world" }}
               position={[1, 2, 3]}
@@ -75,9 +82,18 @@ export const Placeholder = () => {
             >
               <sphereGeometry args={[1, 16, 16]} />
               <meshStandardMaterial color="hotpink" transparent />
-            </mesh>
+            </mesh> */}
 
-            <OrbitControls enableZoom={false} />
+            {/* <mesh>
+              <planeGeometry args={[2, 3, 16]} />
+              <meshStandardMaterial
+                color="hotpink"
+                side={DoubleSide}
+                transparent
+              />
+            </mesh> */}
+
+            <OrbitControls enableZoom={true} />
           </Suspense>
         </Canvas>
         <Loader
