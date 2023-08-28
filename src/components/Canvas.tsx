@@ -47,6 +47,14 @@ const loaderStyles = {
   },
 };
 
+const initialPositions = [
+  [0, 3, 0],
+  [0, 2.9, 0],
+  [0, 2.8, 0],
+  [0, 2.7, 0],
+  [0, 2.6, 0],
+];
+
 // const lightColours = {
 //   mint: "rgb(194,255,188)",
 //   lightBlue: "rgb(171, 203, 255)",
@@ -68,11 +76,9 @@ export const Placeholder = () => {
               position={[0, 5, 3]}
             /> */}
 
-            <GluedPoster position={[0, 3, 0]} />
-            <GluedPoster position={[0, 2.9, 0]} />
-            <GluedPoster position={[0, 2.8, 0]} />
-            <GluedPoster position={[0, 2.7, 0]} />
-            <GluedPoster position={[0, 2.6, 0]} />
+            {initialPositions.map((initialPosition, index) => (
+              <GluedPoster key={index} position={initialPosition} />
+            ))}
 
             {/* <mesh
               visible

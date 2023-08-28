@@ -5,11 +5,12 @@ Command: npx gltfjsx@6.1.4 GluedPosterv2.gltf --transform --types
 
 import * as THREE from "three";
 import { Object3DNode, useLoader } from "@react-three/fiber";
-import { animated } from "@react-spring/three";
+import { animated, useSpring } from "@react-spring/three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { extend } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import GTPressura from "../assets/GTPressura.json";
+import { useState } from "react";
 
 extend({ TextGeometry });
 
@@ -26,6 +27,8 @@ interface Props {
 }
 
 export function GluedPoster(props: Props) {
+  const [active, setActive] = useState(false);
+
   const { position } = props;
   const font = new FontLoader().parse(GTPressura);
   const colorMap = useLoader(THREE.TextureLoader, "FileStrokeTexture.png");
@@ -33,12 +36,16 @@ export function GluedPoster(props: Props) {
   const rotation90 = Math.PI / 2;
   const fontSize = 0.06;
 
+  const { scale } = useSpring({ scale: active ? 1.5 : 1 });
+
   return (
     <animated.group
       {...props}
       dispose={null}
+      scale={scale}
       rotation={[-rotation90, 0, 0]}
       position={position}
+      onClick={() => setActive(!active)}
     >
       <mesh position={[-0.2, 0.55, 0.01]}>
         <textGeometry
@@ -49,7 +56,11 @@ export function GluedPoster(props: Props) {
       <mesh>
         <planeGeometry args={[2, 3, 16]} />
 
-        <meshBasicMaterial map={colorMap} toneMapped={false} />
+        <meshBasicMaterial
+          map={colorMap}
+          toneMapped={false}
+          transparent={true}
+        />
       </mesh>
     </animated.group>
   );
