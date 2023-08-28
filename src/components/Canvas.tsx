@@ -1,29 +1,7 @@
 import { Environment, Loader, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { GluedPoster } from "./Poster";
-
-// function Rig({ children }: { children: ReactNode }) {
-//   const ref = useRef<THREE.Group>(null);
-
-//   useFrame((state) => {
-//     if (ref.current) {
-//       ref.current.rotation.y = THREE.MathUtils.lerp(
-//         ref.current.rotation.y,
-//         (state.mouse.x * Math.PI) / 10,
-//         0.03
-//       );
-
-//       ref.current.rotation.x = THREE.MathUtils.lerp(
-//         ref.current.rotation.x,
-//         (state.mouse.y * Math.PI) / 10,
-//         0.03
-//       );
-//     }
-//   });
-
-//   return <group ref={ref}>{children}</group>;
-// }
+import { File } from "./File";
 
 const loaderStyles = {
   container: {
@@ -48,64 +26,36 @@ const loaderStyles = {
 };
 
 const initialPositions = [
-  [0, 3, 0],
-  [0, 2.9, 0],
-  [0, 2.8, 0],
-  [0, 2.7, 0],
-  [0, 2.6, 0],
+  [0, 2, 0],
+  [0, 1.9, 0],
+  [0, 1.8, 0],
+  [0, 1.7, 0],
+  [0, 1.6, 0],
 ];
 
 const initialRotation = [-Math.PI / 2, 0, -Math.PI / 4];
-
-// const lightColours = {
-//   mint: "rgb(194,255,188)",
-//   lightBlue: "rgb(171, 203, 255)",
-// };
-
-// [2.5 * 0.7, 4.4 * 0.8, 4 * 0.7]
 
 export const Placeholder = () => {
   return (
     <>
       <div className="bg-stone-50 fixed top-0 bottom-0 w-screen h-screen z-50">
-        <Canvas camera={{ fov: 50, position: [0, 0, 8] }}>
+        <Canvas
+          camera={{
+            fov: 50,
+            position: [0, 2, 4.5],
+          }}
+        >
           <Suspense fallback={null}>
-            <Environment files="/clear_land.hdr" blur={0.01} />
+            <Environment files="/clear_land.hdr" background blur={0.01} />
             <axesHelper args={[5]} />
 
-            {/* <hemisphereLight
-              color={lightColours.lightBlue}
-              groundColor={lightColours.mint}
-              intensity={0.6}
-              position={[0, 5, 3]}
-            /> */}
-
             {initialPositions.map((initialPosition, index) => (
-              <GluedPoster
+              <File
                 key={index}
                 position={initialPosition}
                 rotation={initialRotation}
               />
             ))}
-
-            {/* <mesh
-              visible
-              userData={{ hello: "world" }}
-              position={[1, 2, 3]}
-              rotation={[Math.PI / 2, 0, 0]}
-            >
-              <sphereGeometry args={[1, 16, 16]} />
-              <meshStandardMaterial color="hotpink" transparent />
-            </mesh> */}
-            {/* 
-            <mesh>
-              <planeGeometry args={[2, 3, 16]} />
-              <meshStandardMaterial
-                color="hotpink"
-                side={DoubleSide}
-                transparent
-              />
-            </mesh> */}
 
             <OrbitControls enableZoom={true} />
           </Suspense>
