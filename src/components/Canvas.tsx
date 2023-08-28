@@ -38,7 +38,7 @@ const initialRotation = [-Math.PI / 2, 0, -Math.PI / 4];
 export const Placeholder = () => {
   return (
     <>
-      <div className="bg-stone-50 fixed top-0 bottom-0 w-screen h-screen z-50">
+      <div className="fixed top-0 bottom-0 w-screen h-screen z-10">
         <Canvas
           camera={{
             fov: 50,
@@ -46,8 +46,8 @@ export const Placeholder = () => {
           }}
         >
           <Suspense fallback={null}>
-            <Environment files="/clear_land.hdr" background blur={0.01} />
-            <axesHelper args={[5]} />
+            <Environment files="/clear_land.hdr" blur={0.01} />
+            {/* <axesHelper args={[5]} /> */}
 
             {initialPositions.map((initialPosition, index) => (
               <File

@@ -1,4 +1,14 @@
 @font-face {
-  font-family: "Sohne-Light";
-  src: url("/fonts/Sohne_Light.otf") format("opentype");
+  font-family: "Diatype-Thin";
+  src: url("/Fonts/ABCDiatypeCondensed-Thin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Diatype-Medium";
+  src: url("/Fonts/ABCDiatypeCondensed-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Diatype-Regular";
+  src: url("/Fonts/ABCDiatypeCondensed-Regular.woff2") format("woff2");
 }
