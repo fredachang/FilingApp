@@ -2,7 +2,6 @@ import { Environment, Loader, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { File } from "./File";
-import { PlaneButton } from "./Plane";
 
 const loaderStyles = {
   container: {
@@ -57,8 +56,6 @@ export const Placeholder = () => {
                 rotation={initialRotation}
               />
             ))}
-
-            <PlaneButton />
 
             <OrbitControls enableZoom={true} />
           </Suspense>

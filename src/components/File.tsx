@@ -5,7 +5,7 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { extend } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import GTPressura from "../assets/GTPressura.json";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 extend({ TextGeometry });
 
@@ -23,6 +23,7 @@ interface Props {
 }
 
 export function File(props: Props) {
+  const ref = useRef<any | null>(null);
   const [active, setActive] = useState(false);
 
   console.log(active);
@@ -33,26 +34,28 @@ export function File(props: Props) {
 
   const fontSize = 0.06;
 
-  const [spring, set] = useSpring(() => ({
+  const [spring, setSpring] = useSpring(() => ({
     position: position,
     rotation: rotation,
     config: { mass: 0.5, friction: 50, tension: 200 },
   }));
 
-  const handleClick = () => {
-    setActive(!active);
+  useEffect(() => {
     if (active) {
-      set({ position: [0, 0, 0], rotation: [0, 0, 0] });
+      setSpring({ position: [0, 1.7, 1.8], rotation: [0, 0, 0] });
+    } else {
+      setSpring({ position: position, rotation: rotation });
     }
-    if (!active) {
-      set({ position: position, rotation: rotation });
-    }
+  }, [active, position, rotation, spring]);
+
+  const handleClick = () => {
+    setActive((prevActive) => !prevActive);
   };
 
   useFrame((state) => {
-    const vec = new THREE.Vector3(0, active ? 0 : 2, active ? 2.5 : 4.5);
+    const vec = new THREE.Vector3(0, active ? 0 : 2, active ? 0.4 : 4.5);
     state.camera.position.lerp(vec, 0.03);
-    state.camera.lookAt(0, 0, 0);
+    state.camera.lookAt(ref.current.position);
   });
 
   return (
@@ -62,6 +65,7 @@ export function File(props: Props) {
       rotation={spring.rotation}
       position={spring.position}
       onClick={handleClick}
+      ref={ref}
     >
       <mesh position={[-0.2, 0.55, 0.01]}>
         <textGeometry
