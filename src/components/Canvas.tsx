@@ -55,16 +55,20 @@ const initialPositions = [
   [0, 2.6, 0],
 ];
 
+const initialRotation = [-Math.PI / 2, 0, -Math.PI / 4];
+
 // const lightColours = {
 //   mint: "rgb(194,255,188)",
 //   lightBlue: "rgb(171, 203, 255)",
 // };
 
+// [2.5 * 0.7, 4.4 * 0.8, 4 * 0.7]
+
 export const Placeholder = () => {
   return (
     <>
       <div className="bg-stone-50 fixed top-0 bottom-0 w-screen h-screen z-50">
-        <Canvas camera={{ fov: 75, position: [2.5 * 0.7, 4.4 * 0.8, 4 * 0.7] }}>
+        <Canvas camera={{ fov: 50, position: [0, 0, 8] }}>
           <Suspense fallback={null}>
             <Environment files="/clear_land.hdr" blur={0.01} />
             <axesHelper args={[5]} />
@@ -77,7 +81,11 @@ export const Placeholder = () => {
             /> */}
 
             {initialPositions.map((initialPosition, index) => (
-              <GluedPoster key={index} position={initialPosition} />
+              <GluedPoster
+                key={index}
+                position={initialPosition}
+                rotation={initialRotation}
+              />
             ))}
 
             {/* <mesh
@@ -89,8 +97,8 @@ export const Placeholder = () => {
               <sphereGeometry args={[1, 16, 16]} />
               <meshStandardMaterial color="hotpink" transparent />
             </mesh> */}
-
-            {/* <mesh>
+            {/* 
+            <mesh>
               <planeGeometry args={[2, 3, 16]} />
               <meshStandardMaterial
                 color="hotpink"

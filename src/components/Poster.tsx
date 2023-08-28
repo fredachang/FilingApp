@@ -24,28 +24,41 @@ const fontColour = new THREE.Color("rgb(0, 0, 0)");
 
 interface Props {
   position: any;
+  rotation: any;
 }
 
 export function GluedPoster(props: Props) {
   const [active, setActive] = useState(false);
 
-  const { position } = props;
+  const { position, rotation } = props;
   const font = new FontLoader().parse(GTPressura);
   const colorMap = useLoader(THREE.TextureLoader, "FileStrokeTexture.png");
 
-  const rotation90 = Math.PI / 2;
   const fontSize = 0.06;
 
-  const { scale } = useSpring({ scale: active ? 1.5 : 1 });
+  const [spring, set] = useSpring(() => ({
+    position: position,
+    rotation: rotation,
+    config: { mass: 0.5, friction: 50, tension: 200 },
+  }));
+
+  const handleClick = () => {
+    setActive(!active);
+    if (active) {
+      set({ position: [0, 0, 0], rotation: [0, 0, 0] });
+    }
+    if (!active) {
+      set({ position: position, rotation: rotation });
+    }
+  };
 
   return (
     <animated.group
       {...props}
       dispose={null}
-      scale={scale}
-      rotation={[-rotation90, 0, 0]}
-      position={position}
-      onClick={() => setActive(!active)}
+      rotation={spring.rotation}
+      position={spring.position}
+      onClick={handleClick}
     >
       <mesh position={[-0.2, 0.55, 0.01]}>
         <textGeometry
@@ -57,6 +70,7 @@ export function GluedPoster(props: Props) {
         <planeGeometry args={[2, 3, 16]} />
 
         <meshBasicMaterial
+          side={THREE.DoubleSide}
           map={colorMap}
           toneMapped={false}
           transparent={true}
